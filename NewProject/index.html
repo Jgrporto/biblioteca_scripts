@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca de Scripts</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/5c5c88297c.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <header>
+    <div class="container">
+        
+        <div class="site-title">Suporte Técnico</div>
+
+        <nav>
+            <ul>
+                <li><a href="#" id="nav-scripts">Biblioteca de Scripts</a></li>
+                <li><a href="#" id="nav-analise">Análise de Desconto</a></li>
+            </ul>
+        </nav>
+
+    </div>
+</header>
+
+    <main id="script-library" class="page-section">
+        <div class="container">
+            <h1>Biblioteca de Scripts</h1>
+            <div class="scripts-section">
+                <div class="scripts-list">
+                    <h2>Scripts Salvos</h2>
+                    <input type="search" id="search-input" placeholder="Buscar por título ou descrição...">
+                    <ul id="script-list-ul">
+                        </ul>
+                </div>
+                <div class="script-content">
+                    <h2>Detalhes do Script</h2>
+                    <div id="script-display">
+                        <p>Selecione um script da lista para ver o conteúdo aqui.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+   <main id="analise-section" class="page-section" style="display: none;">
+    <div class="container">
+        <h1>Análise de Desconto</h1>
+        
+        <div class="analise-layout">
+            
+            <div class="texto-fixo-coluna">
+                <h2>Texto Padrão</h2>
+                <div id="texto-para-copiar" class="texto-box">
+APÓS ANALISE, NÃO SERÁ CONCEDIDO DESCONTO CONFORME SOLICITADO NESSE PROTOCOLO
+<br><br>
+MOTIVO DO DESCONTO NEGADO:
+<br><br>
+ENVIADO TEMPLATE DE DESCONTO NÃO CONCEDIDO
+                </div>
+                <button id="copiar-texto-btn" class="btn">Copiar Texto</button>
+            </div>
+
+            <div class="iframe-coluna">
+                <iframe id="analise-iframe" src="https://falhas.emexinternet.com.br" title="Análise de Desconto Flashman"></iframe>
+            </div>
+
+        </div>
+    </div>
+</main>
+    
+    <script src="scripts.js"></script>
+
+</body>
+</html>

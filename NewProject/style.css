@@ -1,0 +1,292 @@
+/* =================================
+   Estilos Gerais e Cabeçalho (ATUALIZADO)
+   ================================= */
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    background-color: #fdfdfd;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    overflow: hidden;
+}
+
+header {
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 1rem 0;
+    border-bottom: #3498db 4px solid;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* NOVO: Estilo para o título do site */
+.site-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ecf0f1;
+}
+
+/* ATUALIZADO: Usando Flexbox para alinhar título e menu */
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header a {
+    color: #ecf0f1;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+header a:hover {
+    color: #3498db;
+}
+
+/* ATUALIZADO: Não precisa mais do 'float' */
+header ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+header li {
+    display: inline;
+    padding: 0 0 0 20px;
+}
+
+/* =================================
+   Seção da Biblioteca de Scripts
+   ================================= */
+
+#script-library h1 {
+    color: #2c3e50;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.scripts-section {
+    padding: 2rem 0;
+    display: flex;
+    gap: 30px; /* Espaçamento entre as colunas */
+}
+
+/* Coluna da Lista de Scripts */
+.scripts-list {
+    flex-basis: 30%;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    /* NOVO: Barra de rolagem interna como segurança se a lista for muito grande */
+    overflow-y: hidden;
+    /* REMOVIDO: position: sticky e as outras propriedades relacionadas da tentativa anterior */
+}
+.scripts-list h2 {
+    margin-top: 0;
+    color: #34495e;
+}
+
+.scripts-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.script-item {
+    padding: 12px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.script-item:last-child {
+    border-bottom: none;
+}
+
+.script-item:hover {
+    background-color: #3498db;
+    color: #fff;
+}
+
+/* Coluna do Conteúdo do Script */
+.script-content {
+    flex-basis: 70%; /* Ocupa 70% da largura */
+}
+
+.script-content h2 {
+    margin-top: 0;
+    color: #34495e;
+}
+
+#script-display {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    min-height: 200px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+#script-display h3 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+/* Estilização do Bloco de Código */
+pre {
+    background-color: #2d2d2d; /* Fundo escuro para código */
+    color: #f8f8f2; /* Texto claro */
+    padding: 20px;
+    border-radius: 5px;
+    white-space: pre-wrap;   /* Quebra de linha */
+    word-wrap: break-word;   /* Quebra de palavra */
+    font-size: 14px;
+    line-height: 1.5;
+    position: relative;
+}
+
+/* =================================
+   Estilo do Filtro de Busca
+   ================================= */
+
+#search-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box; /* Garante que padding não afete a largura total */
+}
+
+#search-input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+/* =================================
+   Estilo da Seção de Análise (iframe)
+   ================================= */
+
+#analise-iframe {
+    width: 110%;
+    height: 75vh; /* 75% da altura da tela */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* =================================
+   Layout da Seção de Análise (ATUALIZADO)
+   ================================= */
+
+.analise-layout {
+    display: flex;
+    gap: 40px; /* Espaço entre as colunas */
+}
+
+.texto-fixo-coluna {
+    flex-basis: 30%; /* Cálculo: 30% (largura desejada) / 0.75 (zoom) */
+}
+
+
+.iframe-coluna {
+    flex-basis: 60%; /* O espaço restante: 100% - 40% */
+    display: flex;
+    flex-direction: column;
+}
+
+.iframe-coluna p {
+    margin-top: 0;
+}
+
+/* Estilo da caixa de texto e do botão (ATUALIZADO) */
+.texto-box {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    font-family: monospace; 
+    line-height: 1.5;
+    color: #333;
+    font-size: 16px; /* <<< FONTE AUMENTADA AQUI */
+}
+
+/* O estilo do botão .btn não precisa de alterações */
+.btn {
+    display: inline-block;
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #2980b9;
+}
+
+/* =================================
+   Zoom Específico para a Seção de Análise
+   ================================= */
+
+#analise-section {
+    /* Teste valores como 0.8, 0.75, 0.7 etc. para ver qual se ajusta melhor */
+    zoom: 0.75; 
+}
+
+/* =================================
+   Seção da Analise de desconto
+   ================================= */
+
+#analise-section h1 {
+    color: #2c3e50;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    font-size: 2.5em;
+}
+
+/* =================================
+   Estilo do Bloco de Código e Botão Copiar
+   ================================= */
+
+/* Criamos um 'invólucro' para o bloco de código para posicionar o botão */
+.code-block-wrapper {
+    position: relative; /* Define o contexto para o posicionamento do botão */
+}
+
+/* Posiciona o botão de copiar no canto */
+.copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    font-size: 12px;
+    background-color: #555;
+    border-color: #444;
+    opacity: 0.3; /* O botão fica sutil */
+    transition: opacity 0.3s ease;
+}
+
+/* O botão se torna visível ao passar o mouse sobre o bloco de código */
+.code-block-wrapper:hover .copy-btn {
+    opacity: 1;
+}
