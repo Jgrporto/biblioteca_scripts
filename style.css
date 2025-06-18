@@ -64,7 +64,7 @@ body {
     line-height: 1.6;
     margin: 0;
     background-color: var(--cor-fundo-geral);
-    zoom: 0.9
+    zoom: 0.8
 }
 
 .container {
@@ -833,6 +833,12 @@ details .color-pickers, details .import-export-actions {
     border-bottom: 2px solid var(--cor-borda-sutil);
     padding-bottom: 10px;
     margin-bottom: 40px;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
 }
 .page-header h1 {
     border-bottom: none;
@@ -966,4 +972,35 @@ details .color-pickers, details .import-export-actions {
         text-align: left;
         font-weight: bold;
     }
+}
+
+/* =================================
+   Estilização da Barra de Rolagem Global e Minimalista
+   ================================= */
+
+/* Para Firefox - define a barra como fina */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--cor-secundaria) transparent;
+}
+
+/* Para Chrome, Edge, Safari etc. - controle total */
+*::-webkit-scrollbar {
+    width: 6px;  /* Deixa a barra de rolagem bem fina */
+    height: 6px; /* Para rolagem horizontal, se houver */
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent; /* O fundo/pista da barra fica invisível */
+}
+
+*::-webkit-scrollbar-thumb {
+    /* Cor da alça com 50% de transparência para ser sutil */
+    background-color: color-mix(in srgb, var(--cor-secundaria) 50%, transparent); 
+    border-radius: 20px; /* Cantos totalmente arredondados */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    /* A cor fica 100% sólida ao passar o mouse */
+    background-color: var(--cor-secundaria);
 }
