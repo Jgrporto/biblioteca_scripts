@@ -66,10 +66,10 @@
 
   ],
   "tools": [
-    { "id": "tool1", "name": "Grafana", "url": "http://monitor.emexinternet.com.br:3000/login", "description": "Ferramenta de monitoramento de redes e rotas.", "category": "monitoramento", "icon": "", "isDeletable": false },
+    { "id": "tool1", "name": "Grafana", "url": "http://monitor.emexinternet.com.br:3000/login", "description": "Ferramenta de monitoramento de redes e rotas.", "category": "monitoramento", "icon": "DataImages/grafana_icon.png", "isDeletable": false },
     { "id": "tool2", "name": "Zabbix", "url": "http://monitor.emexinternet.com.br/zabbix/index.php?request=zabbix.php%3Faction%3Ddashboard.view", "description": "Ferramenta de alertas de redes e rotas.", "category": "monitoramento", "icon": "DataImages/zabbix_icon.png", "isDeletable": false },
-    { "id": "tool3", "name": "React", "url": "http://suporte.emexinternet.com.br", "description": "Ferramenta de identificação de falhas.", "category": "monitoramento", "icon": "", "isDeletable": false },
-    { "id": "tool4", "name": "Wiki Emex", "url": "http://10.200.200.2:3000/pt-br/scripts", "description": "Wiki para informações gerais de atendimentos e scripts.", "category": "consulta", "icon": "", "isDeletable": false },
+    { "id": "tool3", "name": "React", "url": "http://suporte.emexinternet.com.br", "description": "Ferramenta de identificação de falhas.", "category": "monitoramento", "icon": "DataImages/react_icon.png", "isDeletable": false },
+    { "id": "tool4", "name": "Wiki Emex", "url": "http://10.200.200.2:3000/pt-br/scripts", "description": "Wiki para informações gerais de atendimentos e scripts.", "category": "consulta", "icon": "DataImages/icon_emex.png", "isDeletable": false },
     { "id": "tool5", "name": "Flashman", "url": "https://flashman.emextelecom.com.br/login", "description": "Ferramenta de acesso e gerenciamento de roteadores em comodato.", "category": "atendimento", "icon": "DataImages/flashman_icon.png", "isDeletable": false },
     { "id": "tool6", "name": "Hubsoft", "url": "https://emex.hubsoft.com.br/cliente", "description": "Ferramenta de relato e acesso aos serviços do cliente.", "category": "atendimento", "icon": "DataImages/hubsoft_icon.png", "isDeletable": false },
     { "id": "tool7", "name": "MatrixGo", "url": "https://emex.matrixdobrasil.ai/Painel/login", "description": "Ferramenta de atendimento ao cliente via Whatsapp.", "category": "atendimento", "icon": "DataImages/icon_matrix.png", "isDeletable": false },
