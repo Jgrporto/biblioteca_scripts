@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // IMPORTANTE: Defina seu usuário e senha aqui
-    const USUARIO_VALIDO = 'suporte';
-    const SENHA_VALIDA = '1234';
+    const USUARIO_VALIDO = 'Suporte';
+    const SENHA_VALIDA = '3200';
 
     const loginForm = document.getElementById('login-form');
     const errorMessage = document.getElementById('error-message');
