@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // APLICAÇÃO INICIA QUANDO O CONTEÚDO DA PÁGINA É CARREGADO
+// APLICAÇÃO INICIA QUANDO O CONTEÚDO DA PÁGINA É CARREGADO
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // =================================================
@@ -39,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeSelector = document.getElementById('theme-selector');
     const resetThemeBtn = document.getElementById('reset-theme-btn');
     const clearDataBtn = document.getElementById('clear-data-btn');
+    const factoryResetBtn = document.getElementById('factory-reset-btn');
     const colorPickers = document.querySelectorAll('.color-pickers input[type="color"]');
     const exportThemeBtn = document.getElementById('export-theme-btn');
     const importThemeBtn = document.getElementById('import-theme-btn');
@@ -48,9 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const addToolForm = document.getElementById('add-tool-form');
     const cancelToolBtn = document.getElementById('cancel-tool-btn');
     const toolModalTitle = document.getElementById('tool-modal-title');
-    
+    const toolIconInput = document.getElementById('tool-icon-input');
+    const toolIconPreview = document.getElementById('tool-icon-preview');
+
     // =================================================
-    // ESTADO DA APLICAÇÃO
+    // DADOS DA APLICAÇÃO E ESTADO
     // =================================================
     let scriptsData = [];
     let toolsData = [];
@@ -67,9 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function initializeApp() {
         try {
             const response = await fetch('defaults.json');
-            if (!response.ok) {
-                throw new Error(`Erro ao carregar o arquivo: ${response.statusText}`);
-            }
+            if (!response.ok) { throw new Error(`Erro HTTP: ${response.status}`); }
             const defaultData = await response.json();
 
             loadScripts(defaultData.scripts);
@@ -81,8 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
             showPage('script-library');
 
         } catch (error) {
-            console.error("Erro fatal: Não foi possível carregar os dados padrão do arquivo defaults.json.", error);
-            document.body.innerHTML = `<div style="padding: 20px; text-align: center; color: #e74c3c;"><h1>Erro ao Carregar Aplicação</h1><p>Não foi possível ler o arquivo de dados 'defaults.json'. Verifique o console (F12) para mais detalhes. Se estiver abrindo o arquivo localmente, tente usar a extensão 'Live Server' no VS Code.</p></div>`;
+            console.error("Erro fatal ao carregar dados padrão:", error);
+            document.body.innerHTML = `<div style="padding: 20px; text-align: center; color: #e74c3c;"><h1>Erro ao Carregar Aplicação</h1><p>Não foi possível ler o arquivo 'defaults.json'. Tente usar a extensão 'Live Server' no VS Code.</p></div>`;
         }
     }
 
@@ -133,60 +136,75 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function renderScriptList(scriptsToRender) {
-        scriptListUl.innerHTML = '';
-        scriptsToRender.sort((a, b) => {
-            if (a.isFavorite && !b.isFavorite) return -1;
-            if (!a.isFavorite && b.isFavorite) return 1;
-            return a.title.localeCompare(b.title);
+function renderScriptList(scriptsToRender) {
+    scriptListUl.innerHTML = '';
+
+    // Ordena a lista: favoritos primeiro, depois alfabeticamente
+    scriptsToRender.sort((a, b) => {
+        if (a.isFavorite && !b.isFavorite) return -1;
+        if (!a.isFavorite && b.isFavorite) return 1;
+        return a.title.localeCompare(b.title);
+    });
+
+    scriptsToRender.forEach(script => {
+        const li = document.createElement('li');
+        li.className = 'script-item';
+        li.addEventListener('click', () => showScript(script.id));
+
+        // Cria o botão de Favorito
+        const favoriteBtn = document.createElement('button');
+        favoriteBtn.className = 'favorite-btn';
+        favoriteBtn.title = 'Marcar como favorito';
+        
+        // Adiciona a classe .is-favorited se o script for um favorito
+        if (script.isFavorite) {
+            favoriteBtn.classList.add('is-favorited');
+        }
+
+        const favoriteIcon = document.createElement('i');
+        // Adiciona a classe para a cor da estrela
+        favoriteIcon.className = script.isFavorite ? 'fas fa-star favorited-star' : 'far fa-star';
+        favoriteBtn.appendChild(favoriteIcon);
+
+        favoriteBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Impede o clique de se propagar para o item da lista
+            toggleFavorite(script.id);
         });
-        scriptsToRender.forEach(script => {
-            const li = document.createElement('li');
-            li.className = 'script-item';
-            li.addEventListener('click', () => showScript(script.id));
-            const favoriteBtn = document.createElement('button');
-            favoriteBtn.className = 'favorite-btn';
-            if (script.isFavorite) {
-                favoriteBtn.classList.add('is-favorited');
-            }
-            favoriteBtn.title = 'Marcar como favorito';
-            const favoriteIcon = document.createElement('i');
-            favoriteIcon.className = script.isFavorite ? 'fas fa-star favorited-star' : 'far fa-star';
-            favoriteBtn.appendChild(favoriteIcon);
-            favoriteBtn.addEventListener('click', (e) => {
+        li.appendChild(favoriteBtn);
+
+        // Cria o título
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'script-item-title';
+        titleSpan.textContent = script.title;
+        li.appendChild(titleSpan);
+
+        // Cria os botões de Ação (Editar/Deletar)
+        const buttonsWrapper = document.createElement('div');
+        if (script.isDeletable) {
+            const editBtn = document.createElement('button');
+            editBtn.className = 'edit-btn';
+            editBtn.innerHTML = '<i class="fas fa-pencil-alt"></i>';
+            editBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                toggleFavorite(script.id);
+                openEditScriptModal(script.id);
             });
-            li.appendChild(favoriteBtn);
-            const titleSpan = document.createElement('span');
-            titleSpan.className = 'script-item-title';
-            titleSpan.textContent = script.title;
-            li.appendChild(titleSpan);
-            const buttonsWrapper = document.createElement('div');
-            if (script.isDeletable) {
-                const editBtn = document.createElement('button');
-                editBtn.className = 'edit-btn';
-                editBtn.innerHTML = '<i class="fas fa-pencil-alt"></i>';
-                editBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    openEditScriptModal(script.id);
-                });
-                buttonsWrapper.appendChild(editBtn);
-                const deleteBtn = document.createElement('button');
-                deleteBtn.className = 'delete-btn';
-                deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
-                deleteBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    if (confirm(`Tem certeza que deseja excluir o script "${script.title}"?`)) {
-                        deleteScript(script.id);
-                    }
-                });
-                buttonsWrapper.appendChild(deleteBtn);
-            }
-            li.appendChild(buttonsWrapper);
-            scriptListUl.appendChild(li);
-        });
-    }
+            buttonsWrapper.appendChild(editBtn);
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (confirm(`Tem certeza que deseja excluir o script "${script.title}"?`)) {
+                    deleteScript(script.id);
+                }
+            });
+            buttonsWrapper.appendChild(deleteBtn);
+        }
+        li.appendChild(buttonsWrapper);
+        scriptListUl.appendChild(li);
+    });
+}
 
     function deleteScript(scriptId) {
         scriptsData = scriptsData.filter(s => s.id !== scriptId);
@@ -252,6 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
             toolCard.href = tool.url;
             toolCard.target = '_blank';
             toolCard.rel = 'noopener noreferrer';
+            
             const titleEl = document.createElement('h3');
             if (tool.icon) {
                 const iconEl = document.createElement('img');
@@ -261,10 +280,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 titleEl.appendChild(iconEl);
             }
             titleEl.appendChild(document.createTextNode(' ' + tool.name));
+            
             const descriptionEl = document.createElement('p');
             descriptionEl.textContent = tool.description;
+
             toolCard.appendChild(titleEl);
             toolCard.appendChild(descriptionEl);
+
             if (tool.isDeletable) {
                 const actionsWrapper = document.createElement('div');
                 actionsWrapper.className = 'tool-card-actions';
@@ -280,6 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 actionsWrapper.appendChild(deleteBtn);
                 toolCard.appendChild(actionsWrapper);
             }
+            
             switch (tool.category) {
                 case 'monitoramento': monitoringGrid.appendChild(toolCard); break;
                 case 'consulta': consultingGrid.appendChild(toolCard); break;
@@ -322,6 +345,8 @@ document.addEventListener('DOMContentLoaded', () => {
         toolToEditId = null;
         toolModalTitle.textContent = 'Adicionar Nova Ferramenta';
         addToolForm.reset();
+        toolIconPreview.src = '';
+        toolIconPreview.classList.add('hidden'); // Esconde a preview
         addToolModal.style.display = 'flex';
     }
 
@@ -334,7 +359,15 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('tool-name').value = tool.name;
             document.getElementById('tool-url').value = tool.url;
             document.getElementById('tool-description').value = tool.description;
-            document.getElementById('tool-icon').value = tool.icon;
+            
+            if (tool.icon) {
+                toolIconPreview.src = tool.icon;
+                toolIconPreview.classList.remove('hidden'); // Mostra a preview se houver ícone
+            } else {
+                toolIconPreview.src = '';
+                toolIconPreview.classList.add('hidden'); // Esconde se não houver
+            }
+
             document.getElementById('tool-category').value = tool.category;
             addToolModal.style.display = 'flex';
         }
@@ -371,6 +404,13 @@ document.addEventListener('DOMContentLoaded', () => {
     settingsBtn.addEventListener('click', (e) => { e.preventDefault(); settingsPanel.classList.toggle('open'); });
     closeSettingsBtn.addEventListener('click', () => { settingsPanel.classList.remove('open'); });
 
+
+    document.addEventListener('click', (event) => {
+        if (settingsPanel.classList.contains('open') && !settingsPanel.contains(event.target) && !settingsBtn.contains(event.target)) {
+            settingsPanel.classList.remove('open');
+        }
+    });
+
     themeSelector.addEventListener('change', (e) => {
         const selectedTheme = e.target.value;
         document.documentElement.setAttribute('data-theme', selectedTheme);
@@ -395,6 +435,16 @@ document.addEventListener('DOMContentLoaded', () => {
             displayArea.innerHTML = '<p>Selecione um script da lista para ver o conteúdo aqui.</p>';
             currentScriptId = null;
             alert('Scripts não favoritados foram limpos com sucesso!');
+        }
+    });
+    
+    factoryResetBtn.addEventListener('click', () => {
+        if (confirm('ATENÇÃO! Você está prestes a apagar TODOS os dados salvos, incluindo scripts, ferramentas e temas personalizados.')) {
+            if (confirm('Esta ação não pode ser desfeita. Tem certeza ABSOLUTA que deseja continuar?')) {
+                localStorage.clear();
+                alert('Todos os dados foram apagados. A aplicação será reiniciada.');
+                location.reload();
+            }
         }
     });
 
@@ -427,25 +477,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     importThemeBtn.addEventListener('click', () => { importThemeInput.click(); });
-    importThemeInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            try {
-                const importedColors = JSON.parse(e.target.result);
-                localStorage.setItem('customColors', JSON.stringify(importedColors));
-                applyCustomColors();
-                alert('Tema importado com sucesso!');
-            } catch (error) {
-                alert('Erro ao ler o arquivo de tema.');
-            }
-        };
-        reader.readAsText(file);
-        importThemeInput.value = '';
-    });
+    importThemeInput.addEventListener('change', (event) => { /* ... código existente ... */ });
     
-    textoFixoBtn.addEventListener('click', () => { navigator.clipboard.writeText(textoParaCopiar.innerText).then(() => { textoFixoBtn.innerText = 'Copiado!'; setTimeout(() => { textoFixoBtn.innerText = 'Copiar Texto'; }, 2000); }); });
+    textoFixoBtn.addEventListener('click', () => { /* ... código existente ... */ });
     searchInput.addEventListener('input', filterScripts);
 
     navAddScript.addEventListener('click', (e) => { e.preventDefault(); openAddScriptModal(); });
@@ -479,7 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: document.getElementById('tool-name').value,
             url: document.getElementById('tool-url').value,
             description: document.getElementById('tool-description').value,
-            icon: document.getElementById('tool-icon').value,
+            icon: toolIconPreview.src,
             category: document.getElementById('tool-category').value,
         };
         if (isEditingTool) {
@@ -496,18 +530,39 @@ document.addEventListener('DOMContentLoaded', () => {
         addToolModal.style.display = 'none';
     });
 
-    exportBtn.addEventListener('click', () => { const dataToExport = JSON.stringify(scriptsData, null, 2); const dataBlob = new Blob([dataToExport], { type: 'application/json' }); const downloadLink = document.createElement('a'); downloadLink.href = URL.createObjectURL(dataBlob); downloadLink.download = `scripts_backup_${new Date().toISOString().split('T')[0]}.json`; document.body.appendChild(downloadLink); downloadLink.click(); document.body.removeChild(downloadLink); });
-    importBtn.addEventListener('click', () => { importFileInput.click(); });
+// --- Listeners para Export/Import de Scripts (VERSÃO CORRETA E COMPLETA) ---
+    exportBtn.addEventListener('click', () => {
+        const dataToExport = JSON.stringify(scriptsData, null, 2);
+        const dataBlob = new Blob([dataToExport], { type: 'application/json' });
+        const downloadLink = document.createElement('a');
+        downloadLink.href = URL.createObjectURL(dataBlob);
+        downloadLink.download = `scripts_backup_${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    });
+
+    importBtn.addEventListener('click', () => {
+        importFileInput.click();
+    });
+
     importFileInput.addEventListener('change', (event) => {
         const file = event.target.files[0];
         if (!file) { return; }
+        
         const reader = new FileReader();
         reader.onload = function(e) {
             try {
                 const importedData = JSON.parse(e.target.result);
-                if (Array.isArray(importedData) && importedData.every(item => item.title && item.code)) {
+                // Validação para garantir que o arquivo tem o formato esperado
+                if (Array.isArray(importedData) && importedData.every(item => typeof item.title !== 'undefined' && typeof item.code !== 'undefined')) {
                     if (confirm('Isso irá substituir todos os seus scripts atuais pelos do arquivo. Deseja continuar?')) {
-                        scriptsData = importedData.map(script => ({ ...script, isDeletable: script.isDeletable !== undefined ? script.isDeletable : true, isFavorite: script.isFavorite || false }));
+                        // Garante que os novos scripts importados tenham as propriedades padrão
+                        scriptsData = importedData.map(script => ({
+                            ...script,
+                            isDeletable: script.isDeletable !== undefined ? script.isDeletable : true,
+                            isFavorite: script.isFavorite || false
+                        }));
                         saveScripts();
                         renderScriptList(scriptsData);
                         alert('Scripts importados com sucesso!');
@@ -521,7 +576,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
         reader.readAsText(file);
+        
+        // Limpa o input para permitir importar o mesmo arquivo novamente no futuro
         importFileInput.value = '';
+    });
+    
+    // Listener para o input de arquivo do ícone
+    toolIconInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                toolIconPreview.src = e.target.result;
+                toolIconPreview.classList.remove('hidden'); // Mostra a preview
+            }
+            reader.readAsDataURL(file);
+        }
     });
 
     // =================================================
