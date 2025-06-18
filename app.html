@@ -140,10 +140,18 @@
                 <label for="tool-description">Descrição Curta</label>
                 <textarea id="tool-description" rows="2" required></textarea>
             </div>
-            <div class="form-group">
-                <label for="tool-icon">Caminho do Ícone (opcional)</label>
-                <input type="text" id="tool-icon" placeholder="ex: DataImages/meu_icone.png">
-            </div>
+
+                <div class="form-group icon-upload-group">
+                    <div class="icon-upload-label-wrapper">
+                        <label>Ícone da Ferramenta (opcional)</label>
+                        <label for="tool-icon-input" class="btn btn-secondary file-upload-btn">
+                            <i class="fas fa-upload"></i> Escolher arquivo
+                        </label>
+                        <input type="file" id="tool-icon-input" accept="image/*" style="display: none;">
+                    </div>
+<img id="tool-icon-preview" src="" alt="" class="tool-icon-preview hidden">
+                </div>
+            
             <div class="form-group">
                 <label for="tool-category">Categoria</label>
                 <select id="tool-category" required>
@@ -166,26 +174,30 @@
         <button id="close-settings-btn" class="close-btn">&times;</button>
     </div>
     <div class="settings-body">
-        <div class="setting-group">
-            <h3>Tema Visual e Dados</h3>
-            <div class="setting-item">
-                <label for="theme-selector">Selecionar Tema</label>
-                <select id="theme-selector" class="settings-select">
-                    <option value="light">Padrão Claro</option>
-                    <option value="dark">Modo Escuro</option>
-                    <option value="charcoal">Carvão e Verde-água</option>
-                    <option value="solarized">Solarized</option>
-                </select>
-            </div>
-             <div class="setting-item">
-                <label>Resetar Cores</label>
-                <button id="reset-theme-btn" class="btn btn-secondary">Voltar ao Padrão</button>
-            </div>
-            <div class="setting-item">
-                <label>Limpar Scripts</label>
-                <button id="clear-data-btn" class="btn btn-danger">Limpar Scripts Adicionados</button>
-            </div>
-        </div>
+<div class="setting-group">
+    <h3>Tema Visual e Dados</h3>
+    <div class="setting-item">
+        <label for="theme-selector">Selecionar Tema</label>
+        <select id="theme-selector" class="settings-select">
+            <option value="light">Padrão Claro</option>
+            <option value="dark">Modo Escuro</option>
+            <option value="charcoal">Carvão e Verde-água</option>
+            <option value="solarized">Solarized</option>
+        </select>
+    </div>
+     <div class="setting-item">
+        <label>Resetar Cores</label>
+        <button id="reset-theme-btn" class="btn btn-secondary">Voltar ao Padrão</button>
+    </div>
+    <div class="setting-item">
+        <label>Limpar Scripts</label>
+        <button id="clear-data-btn" class="btn btn-danger">Limpar Scripts Adicionados</button>
+    </div>
+    <div class="setting-item">
+        <label>Reset de Fábrica</label>
+        <button id="factory-reset-btn" class="btn btn-danger">Limpar Todos os Dados</button>
+    </div>
+</div>
         <hr>
         <details class="setting-group">
             <summary>
