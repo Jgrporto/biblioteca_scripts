@@ -161,6 +161,19 @@ main h1 {
     overflow-y: auto;
 }
 
+/* NOVO: Estilo para o cabeçalho fixo do painel de scripts */
+.scripts-list-header {
+    position: sticky;
+    top: 0;
+    /* Cor de fundo é crucial para que o conteúdo da lista não apareça por trás ao rolar */
+    background-color: var(--cor-fundo-cartao); 
+    /* Adiciona um pequeno preenchimento abaixo para separar da lista */
+    padding-bottom: 15px;
+    /* Garante que o fundo cubra a borda superior do painel */
+    margin: -20px -20px 20px;
+    padding: 20px 20px 15px 20px;
+}
+
 .script-content {
     flex-basis: 70%;
     overflow-y: auto;
@@ -269,7 +282,8 @@ pre {
 }
 
 .script-item:hover .delete-btn,
-.script-item:hover .edit-btn {
+.script-item:hover .edit-btn,
+.script-item:hover .favorite-btn { /* Adicionado aqui */
     display: inline-block;
 }
 
@@ -292,6 +306,29 @@ pre {
     flex-grow: 1; /* Faz os botões ocuparem o espaço igualmente */
     padding: 8px 10px;
     font-size: 14px;
+}
+
+.script-item {
+    gap: 10px; /* Adiciona um espaço entre os novos botões e o título */
+}
+
+.favorite-btn {
+    display: none; /* Esconde a estrela por padrão */
+    background: none;
+    border: none;
+    color: var(--cor-secundaria);
+    cursor: pointer;
+    font-size: 18px;
+    padding: 5px;
+    line-height: 1; 
+}
+
+.favorite-btn:hover {
+    color: var(--cor-destaque);
+}
+
+.favorite-btn .favorited {
+    color: #f1c40f; /* Cor de estrela dourada/amarela */
 }
 
 /* =================================
@@ -497,6 +534,7 @@ pre {
     display: flex;
     flex-direction: column;
     border-left: 1px solid var(--cor-borda-sutil);
+    padding: 10px;
 }
 
 .settings-panel.open {
@@ -641,4 +679,290 @@ input:checked + .slider:before {
     border: none;
     padding: 0;
     cursor: pointer;
+}
+
+/* =================================
+   Estilos da Página de Login
+   ================================= */
+
+.login-body {
+    background: var(--cor-fundo-geral);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    perspective: 1000px;
+}
+
+.login-box {
+    background-color: var(--cor-fundo-cartao);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    width: 320px;
+    text-align: center;
+    border-top: 5px solid var(--cor-destaque);
+}
+
+.login-box h1 {
+    color: var(--cor-texto-escuro);
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 28px;
+}
+
+.login-box p {
+    color: var(--cor-secundaria);
+    margin-bottom: 30px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--cor-texto-escuro);
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--cor-borda-sutil);
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: var(--cor-fundo-geral);
+    color: var(--cor-texto-escuro);
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+}
+
+.error-message {
+    color: var(--cor-erro);
+    margin-top: 15px;
+    min-height: 20px;
+    font-weight: bold;
+}
+
+/* Novo estilo para botões de 'perigo' ou 'destrutivos' */
+.btn-danger {
+    background-color: var(--cor-erro);
+}
+
+.btn-danger:hover {
+    filter: brightness(1.1);
+}
+
+/* =================================
+   Estilos para Painéis Expansíveis (details/summary)
+   ================================= */
+
+.setting-group {
+    padding: 10px 0;
+}
+
+details.setting-group {
+    border-bottom: 1px solid var(--cor-borda-sutil);
+    padding: 0;
+}
+
+details.setting-group:last-of-type {
+    border-bottom: none;
+}
+
+summary {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    list-style: none; /* Remove a seta padrão do navegador */
+    padding: 15px 0;
+}
+
+summary::-webkit-details-marker {
+    display: none; /* Remove a seta padrão no Chrome/Safari */
+}
+
+summary h3 {
+    margin: 0;
+    font-size: 16px;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+/* Cria uma seta customizada usando CSS */
+summary::before {
+    content: '▶';
+    font-size: 12px;
+    margin-right: 15px;
+    color: var(--cor-destaque);
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Gira a seta quando o painel está aberto */
+details[open] > summary::before {
+    transform: rotate(90deg);
+}
+
+details .color-pickers, details .import-export-actions {
+    padding: 0 10px 20px 10px; /* Adiciona espaçamento interno ao conteúdo expandido */
+}
+
+/* Pequeno ajuste no espaçamento dos itens */
+.setting-item {
+    margin-bottom: 10px;
+}
+
+/* Estilos para o cabeçalho da página com botão */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--cor-borda-sutil);
+    padding-bottom: 10px;
+    margin-bottom: 40px;
+}
+.page-header h1 {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin: 0;
+}
+
+/* Estilos para os botões de ação nos cartões de ferramentas */
+.tool-card {
+    position: relative; /* Necessário para posicionar os botões */
+}
+
+.tool-card-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 5px;
+}
+
+.tool-card-actions button {
+    background-color: rgba(0,0,0,0.1);
+    border: none;
+    color: var(--cor-primaria-texto);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none; /* Escondido por padrão */
+    place-items: center;
+    transition: background-color 0.2s;
+}
+
+.tool-card:hover .tool-card-actions button {
+    display: grid; /* Mostra no hover do cartão */
+}
+
+.tool-card-actions button:hover {
+    background-color: rgba(0,0,0,0.3);
+}
+
+/* =================================
+   Design Responsivo (Telas Pequenas)
+   ================================= */
+
+/* NOVO ESTILO ADICIONADO AQUI */
+/* Esconde o botão hamburger em telas grandes (desktop) por padrão */
+.hamburger-btn {
+    display: none;
+}
+
+
+/* =================================
+   Design Responsivo (VERSÃO CORRIGIDA)
+   ================================= */
+
+/* Esconde o botão hamburger em telas grandes por padrão */
+.hamburger-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--cor-primaria-texto);
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Aplica os estilos abaixo apenas em telas pequenas */
+@media (max-width: 800px) {
+    /* Mostra o botão hamburger */
+    .hamburger-btn {
+        display: block;
+    }
+
+    /* NOVO: Regras para simplificar a visão mobile */
+    #li-nav-scripts,
+    #li-nav-analise,
+    #li-add-script {
+        display: none !important; /* Esconde os itens do menu */
+    }
+
+    /* Força que TODAS as seções de página fiquem escondidas */
+    main.page-section {
+        display: none !important; 
+    }
+
+    /* Força que APENAS a seção de ferramentas seja exibida */
+    main#ferramentas-section {
+        display: block !important;
+    }
+
+    /* A lista de links vira o painel lateral */
+    header nav ul#nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%; /* Começa fora da tela */
+        width: 70%;
+        max-width: 280px;
+        height: 100vh;
+        background-color: var(--cor-primaria-fundo);
+        box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+        
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 80px 30px 30px 30px;
+        gap: 0;
+        
+        transition: right 0.4s ease-in-out;
+        z-index: 1000;
+    }
+
+    /* Classe que o JS vai adicionar para mostrar o menu */
+    header nav ul#nav-links.nav-open {
+        right: 0;
+    }
+
+    header ul#nav-links li {
+        width: 100%;
+    }
+
+    header ul#nav-links a {
+        display: block;
+        padding: 15px 0;
+        width: 100%;
+        font-size: 18px;
+        border-bottom: 1px solid var(--cor-borda-sutil);
+    }
+    
+    header ul#nav-links a.btn {
+        background: none;
+        padding: 15px 0;
+        text-align: left;
+        font-weight: bold;
+    }
 }
