@@ -313,23 +313,36 @@ pre {
     gap: 10px; /* Adiciona um espaço entre os novos botões e o título */
 }
 
+/* Estilos para o botão de favorito (VERSÃO CORRIGIDA E FINAL) */
 .favorite-btn {
-    display: none; /* Esconde a estrela por padrão */
+    display: none; /* Por padrão, todos os botões de favorito são escondidos */
     background: none;
     border: none;
     color: var(--cor-secundaria);
     cursor: pointer;
     font-size: 18px;
     padding: 5px;
-    line-height: 1; 
+    line-height: 1;
 }
 
-.favorite-btn:hover {
-    color: var(--cor-destaque);
+/* REGRA 1: Mostra QUALQUER botão de favorito quando o mouse está sobre o item */
+.script-item:hover .favorite-btn {
+    display: inline-block;
 }
 
-.favorite-btn .favorited {
+/* REGRA 2: Força que o botão com a classe .is-favorited fique SEMPRE visível */
+.favorite-btn.is-favorited {
+    display: inline-block;
+}
+
+/* Regra para a cor da estrela quando favoritada */
+.favorite-btn .favorited-star {
     color: #f1c40f; /* Cor de estrela dourada/amarela */
+}
+
+/* Efeito de hover para a estrela não favoritada */
+.favorite-btn:not(.is-favorited):hover {
+    color: var(--cor-destaque);
 }
 
 /* =================================
@@ -425,6 +438,7 @@ pre {
     width: 24px;
     height: 24px;
     margin-right: 10px;
+    object-fit: contain; /* Adicionado para manter a proporção da imagem */
 }
 
 .tool-card p {
@@ -1003,4 +1017,42 @@ details .color-pickers, details .import-export-actions {
 *::-webkit-scrollbar-thumb:hover {
     /* A cor fica 100% sólida ao passar o mouse */
     background-color: var(--cor-secundaria);
+}
+
+/* Novos estilos para o upload de ícone no formulário (VERSÃO CORRIGIDA) */
+/* Estilos para o upload de ícone (Opção 1: Lado a Lado) */
+.icon-upload-group {
+    display: flex;
+    align-items: flex-end; /* Alinha a base do botão e da preview */
+    gap: 20px;           /* Espaçamento entre o input e a preview */
+}
+
+.icon-upload-label-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex-grow: 1; /* Faz a parte da esquerda ocupar o espaço disponível */
+}
+
+.file-upload-btn {
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block; /* Ajusta o botão para o tamanho do texto */
+}
+
+.tool-icon-preview {
+    width: 60px;         /* Tamanho maior */
+    height: 60px;        /* Tamanho maior */
+    border: 1px dashed var(--cor-borda-sutil);
+    border-radius: 5px;
+    object-fit: contain;
+    background-color: var(--cor-fundo-geral);
+    flex-shrink: 0;      /* Impede que a imagem encolha se o espaço for pouco */
+}
+
+/* Classe utilitária para esconder elementos */
+.hidden {
+    display: none !important;
 }
