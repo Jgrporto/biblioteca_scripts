@@ -10,10 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // ... todo o seu código existente ...
 });
 
+// APLICAÇÃO INICIA QUANDO O CONTEÚDO DA PÁGINA É CARREGADO
 document.addEventListener('DOMContentLoaded', () => {
 
     // =================================================
-    // SELETORES DE ELEMENTOS DO DOM
+    // SELETORES GLOBAIS DE ELEMENTOS DO DOM
     // =================================================
     const scriptListUl = document.getElementById('script-list-ul');
     const searchInput = document.getElementById('search-input');
@@ -47,29 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const addToolForm = document.getElementById('add-tool-form');
     const cancelToolBtn = document.getElementById('cancel-tool-btn');
     const toolModalTitle = document.getElementById('tool-modal-title');
-
-// =================================================
-    // LOGICA DO MENU RESPONSIVO (VERSÃO CORRIGIDA)
+    
     // =================================================
-    const hamburgerBtn = document.getElementById('hamburger-btn');
-    const navLinks = document.getElementById('nav-links'); // Seleciona a lista UL
-    const allNavLinks = document.querySelectorAll('#nav-links a'); // Pega todos os links <a> dentro da lista
-
-    // Abre/Fecha o menu ao clicar no hamburger
-    hamburgerBtn.addEventListener('click', () => {
-        navLinks.classList.toggle('nav-open');
-    });
-
-    // Fecha o menu ao clicar em um dos links
-    allNavLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('nav-open');
-        });
-    });
-
-
-    // =================================================
-    // DADOS DA APLICAÇÃO E ESTADO
+    // ESTADO DA APLICAÇÃO
     // =================================================
     let scriptsData = [];
     let toolsData = [];
@@ -79,44 +60,47 @@ document.addEventListener('DOMContentLoaded', () => {
     let isEditingTool = false;
     let toolToEditId = null;
 
-    const defaultScripts = [
-        { id: 'script1', title: 'Troca de Titularidade', description: 'Script utilizado para realizar a troca de titularidade', code: `TROCA DE TITULARIDADE\n\nXXXNOMEXXXXX\n\n>ANTIGO<\nLOGIN AUTENTICAÇÃO: xxxx\nSENHA AUTENTICAÇÃO: xxxx\n\n>NOVO<\nLOGIN AUTENTICAÇÃO: xxxx\nSENHA AUTENTICAÇÃO: xxxx\n\n//LOGIN ALTERADO, ATENDIMENTO ENCERADO//`, isDeletable: false, isFavorite: false },
-        { id: 'script2', title: 'Abertura de O.S', description: 'Script padrão para realizar a abertura de uma ordem de serviço.', code: `NOME DA PESSOA QUE ENTROU EM CONTATO: xx\nRELATO DETALHADO DO CLIENTE: xxx\n\n>> CHECK LIST PREENCHIDA\n\n// CASO SEJA OS DE 24 HORAS/RETENÇÃO/REINCIDENCIA DESCREVER O MOTIVO, CASO O CONTRÁRIO APAGAR ESSA LINHA.\n\nTELEFONE DE CONTATO E ENDEREÇO CONFIRMADO\nCLIENTE CIENTE DO PRAZO DE [24/48] HORAS\nCLIENTE CIENTE DE POSSÍVEL TAXA DE VISITA IMPRODUTIVA NO VALOR DE R$ 50,00\nCLIENTE CIENTE DE RETORNO CASO NORMALIZE`, isDeletable: false, isFavorite: false },
-        { id: 'script3', title: 'Abertura de Troca Equipamento', description: 'Script padrão para realizar a abertura de uma ordem de serviço de troca de equipamento', code: `NOME DA PESSOA QUE ENTROU EM CONTATO: xx\nRELATO DETALHADO DO CLIENTE: xxx\n \nIDENTIFICADO EQUIPAMENTO EM COMODATO COM POSSIVEIS PROBLEMAS: *DESCREVER O PROBLEMA DO EQUIPAMENTO*\n\nTESTES REALIZADOS: xx\n\nTELEFONE DE CONTATO E ENDEREÇO CONFIRMADO\nCLIENTE CIENTE DO PRAZO DE 48H\nCLIENTE CIENTE DA POSSIBILIDADE DE SER GERADA TAXA REFERENTE AO DANO DO EQUIPAMENTO MEDIANTE ANÁLISE TÉCNICA\nCLIENTE CIENTE DE RETORNO CASO NORMALIZE`, isDeletable: false, isFavorite: false },
-        { id: 'script4', title: 'O.S FTTH', description: 'Script padrão para gerar ordem de serviço de manutenção da rede FTTH', code: `TESTES REALIZADOS\nONU OFFLINE NO SISTEMA\n[LOS VERMELHA / PON PISCANDO / LUZES APAGADAS - FEITA TROCA DE TOMADA SEM SUCESSO]\n\nOU\n\nTESTES REALIZADOS\nONU ONLINE NO SISTEMA, VERIFICADA E REAPROVISIONADA\nFEITO REBOOT E VERIFICADO OS CABOS\n[ROTEADOR DE PLATAFORMA CONFIGURADO / ROTEADOR PARTICULAR, INFORMA QUE NOME DO WIFI CONTINUA O MESMO]\n\nTELEFONE DE CONTATO E ENDEREÇO CONFIRMADO\nCLIENTE CIENTE DO PRAZO DE [24/48] HORAS\nCLIENTE CIENTE DE POSSÍVEL TAXA DE VISITA IMPRODUTIVA NO VALOR DE R$ 50,00\nCLIENTE CIENTE DE RETORNO CASO NORMALIZE`, isDeletable: false, isFavorite: false },
-        { id: 'script5', title: 'O.S FTTX', description: 'Script padrão para gerar ordem de serviço de manutenção da rede FTTX', code: `TESTES REALIZADOS:\n\nFONTE POE [APAGADA, TROCA DE TOMADA SEM SUCESSO / PISCANDO MESMO APÓS RETIRAR O CABO DA POE / PISCANDO APENAS QUANDO CONECTADA NA POE, PORÉM NÃO IDENTIFICADO FALHA]\n[CABO VERIFICADO E  REBOOT REALIZADO]\n\nOU\n\nFONTE POE ACESA E CONTÍNUA\nFEITO REBOOT E VERIFICADO OS CABOS\n[ROTEADOR DE PLATAFORMA CONFIGURADO / ROTEADOR PARTICULAR, INFORMA QUE NOME DO WIFI CONTINUA O MESMO]\n\n\nTELEFONE DE CONTATO E ENDEREÇO CONFIRMADO\nCLIENTE CIENTE DO PRAZO DE [24/48] HORAS\nCLIENTE CIENTE DE POSSÍVEL TAXA DE VISITA IMPRODUTIVA NO VALOR DE R$ 50,00\nCLIENTE CIENTE DE RETORNO CASO NORMALIZE`, isDeletable: false, isFavorite: false },
-        { id: 'script6', title: 'O.S RÁDIO', description: 'Script padrão para gerar ordem de serviço de manutenção da rede RÁDIO', code: `SEM ACESSO\nRELATO DETALHADO DO CLIENTE: xx\n\nTESTES REALIZADOS:\n\nFONTE POE APAGADA, TROCA DE TOMADA SEM SUCESSO\n\nOU\n\nFONTE POE ACESA E CONTÍNUA\nFEITO REBOOT E VERIFICADO OS CABOS\n[ROTEADOR DE PLATAFORMA CONFIGURADO / ROTEADOR PARTICULAR, INFORMA QUE NOME DO WIFI CONTINUA O MESMO]\n\nRÁDIO:  [ ONLINE, DESCONECTADO DO PAINEL / NÃO FOI POSSÍVEL CONECTAR ]\n\nTELEFONE DE CONTATO E ENDEREÇO CONFIRMADO\nCLIENTE CIENTE DO PRAZO DE [24/48] HORAS\nCLIENTE CIENTE DE POSSÍVEL TAXA DE VISITA IMPRODUTIVA NO VALOR DE R$ 50,00\nCLIENTE CIENTE DE RETORNO CASO NORMALIZE`, isDeletable: false, isFavorite: false },
-        { id: 'script7', title: 'O.S Troca de Equipamento', description: 'Script padrão para gerar ordem de serviço de troca de equipamento', code: `// IDENTIFICADO EQUIPAMENTO EM COMODATO DANIFICADO OU APRESENTANDO PROBLEMAS\n\nTIPO DE EQUIPAMENTO:\n\n( ) FONTE DE ENERGIA ( ) ONU ( ) ROTEADOR ( ) ONT  ( ) FONTE POE\n\n// FAVOR AVALIAR DEFEITO NO EQUIPAMENTO, SE NÃO FOI CAUSADO PELO CLIENTE REALIZAR A TROCA.\n\n/// SE IDENTIFICAR DANO PELO CLIENTE, COMUNICAR A SUPERVISÃO PARA QUE SEJA AUTORIZADO A TROCA.\n\nTELEFONE DE CONTATO E ENDEREÇO CONFIRMADO\nCLIENTE CIENTE DO PRAZO DE 48H\nCLIENTE CIENTE DA POSSIBILIDADE DE SER GERADA TAXA REFERENTE AO DANO DO EQUIPAMENTO MEDIANTE ANÁLISE TÉCNICA\nCLIENTE CIENTE DE RETORNO CASO NORMALIZE`, isDeletable: false, isFavorite: false }
-    ];
-
-    const defaultTools = [
-        { id: 'tool1', name: 'Grafana', url: 'http://monitor.emexinternet.com.br:3000/login', description: 'Ferramenta de monitoramento de redes e rotas.', category: 'monitoramento', icon: 'DataImages/grafana_icon.png', isDeletable: false },
-        { id: 'tool2', name: 'Zabbix', url: 'http://monitor.emexinternet.com.br/zabbix/index.php?request=zabbix.php%3Faction%3Ddashboard.view', description: 'Ferramenta de alertas de redes e rotas.', category: 'monitoramento', icon: 'DataImages/zabbix_icon.png', isDeletable: false },
-        { id: 'tool3', name: 'React', url: 'http://suporte.emexinternet.com.br', description: 'Ferramenta de identificação de falhas.', category: 'monitoramento', icon: 'DataImages/react_icon.png', isDeletable: false },
-        { id: 'tool4', name: 'Wiki Emex', url: 'http://10.200.200.2:3000/pt-br/scripts', description: 'Wiki para informações gerais de atendimentos e scripts.', category: 'consulta', icon: 'DataImages/icon_emex.png', isDeletable: false },
-        { id: 'tool5', name: 'Flashman', url: 'https://flashman.emextelecom.com.br/login', description: 'Ferramenta de acesso e gerenciamento de roteadores em comodato.', category: 'atendimento', icon: 'DataImages/flashman_icon.png', isDeletable: false },
-        { id: 'tool6', name: 'Hubsoft', url: 'https://emex.hubsoft.com.br/cliente', description: 'Ferramenta de relato e acesso aos serviços do cliente.', category: 'atendimento', icon: 'DataImages/hubsoft_icon.png', isDeletable: false },
-        { id: 'tool7', name: 'MatrixGo', url: 'https://emex.matrixdobrasil.ai/Painel/login', description: 'Ferramenta de atendimento ao cliente via Whatsapp.', category: 'atendimento', icon: 'DataImages/icon_matrix.png', isDeletable: false },
-        { id: 'tool8', name: 'NewWave URA', url: 'https://emex.newave.one', description: 'Ferramenta de atendimento ao cliente via Ligação.', category: 'atendimento', icon: 'DataImages/newave_icon.png', isDeletable: false }
-    ];
-
     // =================================================
-    // FUNÇÕES DA APLICAÇÃO
+    // FUNÇÕES PRINCIPAIS
     // =================================================
+    
+    async function initializeApp() {
+        try {
+            const response = await fetch('defaults.json');
+            if (!response.ok) {
+                throw new Error(`Erro ao carregar o arquivo: ${response.statusText}`);
+            }
+            const defaultData = await response.json();
 
-    function loadScripts() {
+            loadScripts(defaultData.scripts);
+            loadTools(defaultData.tools);
+
+            applySavedTheme();
+            applyCustomColors();
+            renderTools();
+            showPage('script-library');
+
+        } catch (error) {
+            console.error("Erro fatal: Não foi possível carregar os dados padrão do arquivo defaults.json.", error);
+            document.body.innerHTML = `<div style="padding: 20px; text-align: center; color: #e74c3c;"><h1>Erro ao Carregar Aplicação</h1><p>Não foi possível ler o arquivo de dados 'defaults.json'. Verifique o console (F12) para mais detalhes. Se estiver abrindo o arquivo localmente, tente usar a extensão 'Live Server' no VS Code.</p></div>`;
+        }
+    }
+
+    function loadScripts(defaultScripts) {
         const savedScripts = localStorage.getItem('meusScripts');
         scriptsData = savedScripts ? JSON.parse(savedScripts) : defaultScripts;
         renderScriptList(scriptsData);
     }
+
     function saveScripts() {
         localStorage.setItem('meusScripts', JSON.stringify(scriptsData));
     }
-    function loadTools() {
+
+    function loadTools(defaultTools) {
         const savedTools = localStorage.getItem('dataDeckTools');
         toolsData = savedTools ? JSON.parse(savedTools) : defaultTools;
-        renderTools();
     }
+
     function saveTools() {
         localStorage.setItem('dataDeckTools', JSON.stringify(toolsData));
     }
@@ -162,9 +146,12 @@ document.addEventListener('DOMContentLoaded', () => {
             li.addEventListener('click', () => showScript(script.id));
             const favoriteBtn = document.createElement('button');
             favoriteBtn.className = 'favorite-btn';
+            if (script.isFavorite) {
+                favoriteBtn.classList.add('is-favorited');
+            }
             favoriteBtn.title = 'Marcar como favorito';
             const favoriteIcon = document.createElement('i');
-            favoriteIcon.className = script.isFavorite ? 'fas fa-star favorited' : 'far fa-star';
+            favoriteIcon.className = script.isFavorite ? 'fas fa-star favorited-star' : 'far fa-star';
             favoriteBtn.appendChild(favoriteIcon);
             favoriteBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -265,7 +252,6 @@ document.addEventListener('DOMContentLoaded', () => {
             toolCard.href = tool.url;
             toolCard.target = '_blank';
             toolCard.rel = 'noopener noreferrer';
-            
             const titleEl = document.createElement('h3');
             if (tool.icon) {
                 const iconEl = document.createElement('img');
@@ -275,14 +261,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 titleEl.appendChild(iconEl);
             }
             titleEl.appendChild(document.createTextNode(' ' + tool.name));
-            
             const descriptionEl = document.createElement('p');
             descriptionEl.textContent = tool.description;
-
             toolCard.appendChild(titleEl);
             toolCard.appendChild(descriptionEl);
-
-            // Adiciona botões de ação APENAS se a ferramenta for deletável
             if (tool.isDeletable) {
                 const actionsWrapper = document.createElement('div');
                 actionsWrapper.className = 'tool-card-actions';
@@ -298,7 +280,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 actionsWrapper.appendChild(deleteBtn);
                 toolCard.appendChild(actionsWrapper);
             }
-            
             switch (tool.category) {
                 case 'monitoramento': monitoringGrid.appendChild(toolCard); break;
                 case 'consulta': consultingGrid.appendChild(toolCard); break;
@@ -316,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function openAddScriptModal() {
-        isEditingScript = false; // Corrigido de isEditing
+        isEditingScript = false;
         scriptToEditId = null;
         modalTitle.textContent = 'Adicionar Novo Script';
         addScriptForm.reset();
@@ -504,7 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isEditingTool) {
             const toolIndex = toolsData.findIndex(t => t.id === toolToEditId);
             if (toolIndex > -1) {
-                toolsData[toolIndex] = { ...toolsData[toolIndex], ...formData };
+                toolsData[toolIndex] = { ...toolsData[toolIndex], ...formData, isDeletable: true };
             }
         } else {
             const newTool = { id: 'tool' + Date.now(), ...formData, isDeletable: true };
@@ -515,39 +496,18 @@ document.addEventListener('DOMContentLoaded', () => {
         addToolModal.style.display = 'none';
     });
 
-// --- Listeners para Export/Import de Scripts (VERSÃO CORRETA) ---
-    exportBtn.addEventListener('click', () => {
-        const dataToExport = JSON.stringify(scriptsData, null, 2);
-        const dataBlob = new Blob([dataToExport], { type: 'application/json' });
-        const downloadLink = document.createElement('a');
-        downloadLink.href = URL.createObjectURL(dataBlob);
-        downloadLink.download = `scripts_backup_${new Date().toISOString().split('T')[0]}.json`;
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
-    });
-
-    importBtn.addEventListener('click', () => {
-        importFileInput.click();
-    });
-
+    exportBtn.addEventListener('click', () => { const dataToExport = JSON.stringify(scriptsData, null, 2); const dataBlob = new Blob([dataToExport], { type: 'application/json' }); const downloadLink = document.createElement('a'); downloadLink.href = URL.createObjectURL(dataBlob); downloadLink.download = `scripts_backup_${new Date().toISOString().split('T')[0]}.json`; document.body.appendChild(downloadLink); downloadLink.click(); document.body.removeChild(downloadLink); });
+    importBtn.addEventListener('click', () => { importFileInput.click(); });
     importFileInput.addEventListener('change', (event) => {
         const file = event.target.files[0];
         if (!file) { return; }
-        
         const reader = new FileReader();
         reader.onload = function(e) {
             try {
                 const importedData = JSON.parse(e.target.result);
-                // Validação para garantir que o arquivo tem o formato esperado
-                if (Array.isArray(importedData) && importedData.every(item => typeof item.title !== 'undefined' && typeof item.code !== 'undefined')) {
+                if (Array.isArray(importedData) && importedData.every(item => item.title && item.code)) {
                     if (confirm('Isso irá substituir todos os seus scripts atuais pelos do arquivo. Deseja continuar?')) {
-                        // Garante que os novos scripts importados tenham as propriedades padrão
-                        scriptsData = importedData.map(script => ({
-                            ...script,
-                            isDeletable: script.isDeletable !== undefined ? script.isDeletable : true,
-                            isFavorite: script.isFavorite || false
-                        }));
+                        scriptsData = importedData.map(script => ({ ...script, isDeletable: script.isDeletable !== undefined ? script.isDeletable : true, isFavorite: script.isFavorite || false }));
                         saveScripts();
                         renderScriptList(scriptsData);
                         alert('Scripts importados com sucesso!');
@@ -561,17 +521,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
         reader.readAsText(file);
-        
-        // Limpa o input para permitir importar o mesmo arquivo novamente no futuro
         importFileInput.value = '';
     });
 
     // =================================================
     // INICIALIZAÇÃO DA PÁGINA
     // =================================================
-    applySavedTheme();
-    applyCustomColors();
-    loadScripts();
-    loadTools();
-    showPage('script-library');
+    initializeApp();
+
 });
