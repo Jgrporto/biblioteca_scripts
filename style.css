@@ -1,0 +1,1131 @@
+/* =================================
+   DEFINIÇÃO DAS CORES (VARIÁVEIS)
+   ================================= */
+
+/* Tema 1: Padrão Claro (Minimalista) */
+:root, [data-theme="light"] {
+    --cor-primaria-fundo: #ffffff; 
+    --cor-primaria-texto: #1e2a4a; 
+    --cor-destaque: #4a69ff;
+    --cor-fundo-geral: #f5f7fa;
+    --cor-fundo-cartao: #ffffff; 
+    --cor-texto-escuro: #1e2a4a; 
+    --cor-borda-sutil: #e6e9f0;
+    --cor-sucesso: #2ecc71;
+    --cor-erro: #e74c3c;
+    --cor-secundaria: #95a5a6;
+}
+
+/* Tema 2: Modo Escuro */
+[data-theme="dark"] {
+    --cor-primaria-fundo: #192231;
+    --cor-primaria-texto: #eaf0f6;
+    --cor-destaque: #00aaff;
+    --cor-fundo-geral: #101721;
+    --cor-fundo-cartao: #1f2a3a;
+    --cor-texto-escuro: #d0d8e2;
+    --cor-borda-sutil: #303d52;
+    --cor-secundaria: #7f8c8d;
+}
+
+/* Tema 3: Carvão e Verde-água */
+[data-theme="charcoal"] {
+    --cor-primaria-fundo: #1a1a1d;
+    --cor-primaria-texto: #f0f0f0;
+    --cor-destaque: #49c5b6;
+    --cor-fundo-geral: #f4f4f8;
+    --cor-fundo-cartao: #ffffff;
+    --cor-texto-escuro: #2c2c2c;
+    --cor-borda-sutil: #e1e1e1;
+    --cor-secundaria: #6b6b6b;
+}
+
+/* Tema 4: Solarized */
+[data-theme="solarized"] {
+    --cor-primaria-fundo: #002b36;
+    --cor-primaria-texto: #93a1a1;
+    --cor-destaque: #268bd2;
+    --cor-fundo-geral: #073642;
+    --cor-fundo-cartao: #002b36;
+    --cor-texto-escuro: #b5c8d6;
+    --cor-borda-sutil: #586e75;
+    --cor-secundaria: #839496;
+}
+
+
+
+/* =================================
+   Estilos Gerais e Cabeçalho
+   ================================= */
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: var(--cor-texto-escuro);
+    line-height: 1.6;
+    margin: 0;
+    background-color: var(--cor-fundo-geral);
+    zoom: 0.8
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    overflow: hidden;
+}
+
+header {
+    background: var(--cor-primaria-fundo);
+    color: var(--cor-primaria-texto);
+    padding: 1rem 0;
+    border-bottom: 4px solid var(--cor-destaque);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: 72px;
+    box-sizing: border-box;
+}
+
+.site-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--cor-primaria-texto);
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+header a {
+    color: var(--cor-primaria-texto);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: bold;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+    padding: 5px 0;
+}
+
+header a:hover {
+    color: var(--cor-destaque);
+}
+
+header ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+header li {
+    display: inline;
+}
+
+header nav a.active-link {
+    color: var(--cor-destaque);
+    border-bottom: 2px solid var(--cor-destaque);
+}
+
+
+/* =================================
+   Seção da Biblioteca de Scripts
+   ================================= */
+
+main h1 {
+    color: var(--cor-texto-escuro);
+    border-bottom: 2px solid var(--cor-borda-sutil);
+    padding-bottom: 10px;
+}
+
+.scripts-section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    display: flex;
+    gap: 30px;
+    height: calc(100vh - 72px);
+    box-sizing: border-box;
+}
+
+.scripts-list {
+    flex-basis: 30%;
+    background-color: var(--cor-fundo-cartao);
+    border: 1px solid var(--cor-borda-sutil);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    overflow-y: auto;
+}
+
+/* NOVO: Estilo para o cabeçalho fixo do painel de scripts */
+.scripts-list-header {
+    position: sticky;
+    top: 0;
+    /* Cor de fundo é crucial para que o conteúdo da lista não apareça por trás ao rolar */
+    background-color: var(--cor-fundo-cartao); 
+    /* Adiciona um pequeno preenchimento abaixo para separar da lista */
+    padding-bottom: 15px;
+    /* Garante que o fundo cubra a borda superior do painel */
+    margin: -20px -20px 20px;
+    padding: 20px 20px 15px 20px;
+}
+
+.script-content {
+    flex-basis: 70%;
+    overflow-y: auto;
+    padding-right: 15px;
+}
+
+#search-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid var(--cor-borda-sutil);
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+#search-input:focus {
+    outline: none;
+    border-color: var(--cor-destaque);
+    box-shadow: 0 0 5px color-mix(in srgb, var(--cor-destaque) 50%, transparent);
+}
+
+.scripts-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#script-display {
+    background-color: var(--cor-fundo-cartao);
+    border: 1px solid var(--cor-borda-sutil);
+    border-radius: 8px;
+    padding: 20px;
+    min-height: 200px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+#script-display h3 {
+    margin-top: 0;
+    color: var(--cor-texto-escuro);
+}
+
+pre {
+    background-color: #2d2d2d;
+    color: #f8f8f2;
+    padding: 20px;
+    border-radius: 5px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.code-block-wrapper {
+    position: relative;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    font-size: 12px;
+    background-color: #555;
+    border-color: #444;
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+    color: #fff; /* Garante que o texto 'copiar' seja branco */
+}
+
+.code-block-wrapper:hover .copy-btn {
+    opacity: 1;
+}
+
+.script-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--cor-borda-sutil);
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.script-item:last-child {
+    border-bottom: none;
+}
+
+.script-item:hover {
+    background-color: color-mix(in srgb, var(--cor-destaque) 70%, white);
+}
+
+.script-item-title {
+    flex-grow: 1;
+}
+
+.edit-btn, .delete-btn {
+    background: none;
+    border: none;
+    color: var(--cor-secundaria);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 5px;
+    display: none;
+}
+
+.script-item:hover .delete-btn,
+.script-item:hover .edit-btn,
+.script-item:hover .favorite-btn { /* Adicionado aqui */
+    display: inline-block;
+}
+
+.edit-btn:hover {
+    color: var(--cor-destaque);
+}
+
+.delete-btn:hover {
+    color: var(--cor-erro);
+}
+
+/* Estilo para os botões de Importar/Exportar */
+.import-export-actions {
+    display: flex;
+    gap: 10px; /* Esta linha cria o espaço de 10px entre os botões */
+    margin-bottom: 20px;
+}
+
+.import-export-actions .btn {
+    flex-grow: 1; /* Faz os botões ocuparem o espaço igualmente */
+    padding: 8px 10px;
+    font-size: 14px;
+}
+
+.script-item {
+    gap: 10px; /* Adiciona um espaço entre os novos botões e o título */
+}
+
+/* Estilos para o botão de favorito (VERSÃO CORRIGIDA E FINAL) */
+.favorite-btn {
+    display: none; /* Por padrão, todos os botões de favorito são escondidos */
+    background: none;
+    border: none;
+    color: var(--cor-secundaria);
+    cursor: pointer;
+    font-size: 18px;
+    padding: 5px;
+    line-height: 1;
+}
+
+/* REGRA 1: Mostra QUALQUER botão de favorito quando o mouse está sobre o item */
+.script-item:hover .favorite-btn {
+    display: inline-block;
+}
+
+/* REGRA 2: Força que o botão com a classe .is-favorited fique SEMPRE visível */
+.favorite-btn.is-favorited {
+    display: inline-block;
+}
+
+/* Regra para a cor da estrela quando favoritada */
+.favorite-btn .favorited-star {
+    color: #f1c40f; /* Cor de estrela dourada/amarela */
+}
+
+/* Efeito de hover para a estrela não favoritada */
+.favorite-btn:not(.is-favorited):hover {
+    color: var(--cor-destaque);
+}
+
+/* =================================
+   Seção de Análise
+   ================================= */
+
+   /* Estilos para o Caderno de Anotações */
+.texto-fixo-coluna {
+    /* Transforma a coluna em um container flex vertical */
+    display: flex;
+    flex-direction: column;
+    /* Garante que a coluna tenha a mesma altura do iframe para alinhamento */
+    height: 75vh;
+}
+
+.texto-fixo-coluna h2 {
+    margin-top: 0;
+    flex-shrink: 0; /* Impede que o título encolha */
+}
+
+#anotacoes-textarea {
+    width: 100%;
+    flex-grow: 1; /* Faz o textarea ocupar todo o espaço vertical disponível */
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid var(--cor-borda-sutil);
+    border-radius: 8px;
+    background-color: var(--cor-fundo-cartao);
+    color: var(--cor-texto-escuro);
+    font-size: 14px;
+    line-height: 1.6;
+    resize: vertical; /* Permite que o usuário redimensione a altura */
+    box-sizing: border-box;
+}
+
+.anotacoes-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.anotacoes-actions .btn {
+    flex-grow: 1; /* Faz os botões terem o mesmo tamanho */
+}
+
+.analise-layout {
+    display: flex;
+    gap: 30px;
+}
+
+.texto-fixo-coluna {
+    flex-basis: 30%;
+}
+
+.iframe-coluna {
+    flex-basis: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+.iframe-coluna p {
+    margin-top: 0;
+}
+
+.texto-box {
+    background-color: color-mix(in srgb, var(--cor-fundo-geral) 50%, white);
+    border: 1px solid var(--cor-borda-sutil);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    font-family: monospace;
+    line-height: 1.5;
+    color: var(--cor-texto-escuro);
+}
+
+#analise-iframe {
+    width: 100%;
+    height: 75vh;
+    border: 1px solid var(--cor-borda-sutil);
+    border-radius: 8px;
+}
+
+
+/* =================================
+   Página de Ferramentas
+   ================================= */
+
+#ferramentas-section h2 {
+    color: var(--cor-texto-escuro);
+    padding-bottom: 10px;
+    margin-top: 40px;
+}
+
+#ferramentas-section h2:first-of-type {
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 10px;
+}
+
+.tool-card {
+    display: block;
+    background-color: var(--cor-fundo-cartao);
+    border: 1px solid var(--cor-borda-sutil);
+    border-radius: 8px;
+    padding: 25px;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.tool-card h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--cor-destaque);
+    display: flex;
+    align-items: center;
+}
+
+.tool-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    object-fit: contain; /* Adicionado para manter a proporção da imagem */
+}
+
+.tool-card p {
+    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/* =================================
+   Janela Modal
+   ================================= */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: var(--cor-fundo-cartao);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 90%;
+    max-width: 500px;
+    border-top: 5px solid var(--cor-destaque);
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: var(--cor-texto-escuro);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--cor-texto-escuro);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--cor-borda-sutil);
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: var(--cor-fundo-geral);
+    color: var(--cor-texto-escuro);
+}
+
+.form-actions {
+    margin-top: 25px;
+    text-align: right;
+}
+
+.btn {
+    display: inline-block;
+    background-color: var(--cor-destaque);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    filter: brightness(1.1);
+}
+
+.btn-secondary {
+    background-color: var(--cor-secundaria);
+}
+
+/* =================================
+   Estilos do Painel de Configurações
+   ================================= */
+
+.settings-panel {
+    position: fixed;
+    top: 0;
+    right: -350px; /* Começa fora da tela */
+    width: 330px;
+    height: 100%;
+    background-color: var(--cor-fundo-cartao);
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+    z-index: 1010;
+    transition: right 0.4s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--cor-borda-sutil);
+    padding: 10px;
+}
+
+.settings-panel.open {
+    right: 0; /* Entra na tela */
+}
+
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid var(--cor-borda-sutil);
+    background-color: var(--cor-fundo-geral);
+}
+
+.settings-header h2 {
+    margin: 0;
+    color: var(--cor-texto-escuro);
+    font-size: 20px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--cor-secundaria);
+}
+
+.settings-body {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.setting-item h3 {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.setting-item label {
+    font-weight: bold;
+    color: var(--cor-texto-escuro);
+}
+
+hr {
+    border: none;
+    border-top: 1px solid var(--cor-borda-sutil);
+    margin: 20px 0;
+}
+
+/* Novo estilo para os grupos de configuração */
+.setting-group h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--cor-texto-escuro);
+    font-size: 16px;
+    border-bottom: 1px solid var(--cor-borda-sutil);
+    padding-bottom: 10px;
+}
+
+/* Remove a margem do toggle switch antigo */
+.setting-item {
+    margin-bottom: 15px;
+}
+
+/* Novo estilo para o select de temas */
+.settings-select {
+    width: 150px;
+    padding: 8px;
+    border: 1px solid var(--cor-borda-sutil);
+    border-radius: 5px;
+    background-color: var(--cor-fundo-cartao);
+    color: var(--cor-texto-escuro);
+    font-size: 14px;
+}
+
+/* Estilo para o interruptor (toggle switch) */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+}
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+input:checked + .slider {
+    background-color: var(--cor-destaque);
+}
+input:checked + .slider:before {
+    transform: translateX(22px);
+}
+.slider.round {
+    border-radius: 34px;
+}
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Estilos para os seletores de cor */
+.color-pickers {
+    width: 100%;
+}
+.color-picker-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.color-picker-group input[type="color"] {
+    width: 50px;
+    height: 30px;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+/* =================================
+   Estilos da Página de Login
+   ================================= */
+
+.login-body {
+    background: var(--cor-fundo-geral);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    perspective: 1000px;
+}
+
+.login-box {
+    background-color: var(--cor-fundo-cartao);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    width: 320px;
+    text-align: center;
+    border-top: 5px solid var(--cor-destaque);
+}
+
+.login-box h1 {
+    color: var(--cor-texto-escuro);
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 28px;
+}
+
+.login-box p {
+    color: var(--cor-secundaria);
+    margin-bottom: 30px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--cor-texto-escuro);
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--cor-borda-sutil);
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: var(--cor-fundo-geral);
+    color: var(--cor-texto-escuro);
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+}
+
+.error-message {
+    color: var(--cor-erro);
+    margin-top: 15px;
+    min-height: 20px;
+    font-weight: bold;
+}
+
+/* Novo estilo para botões de 'perigo' ou 'destrutivos' */
+.btn-danger {
+    background-color: var(--cor-erro);
+}
+
+.btn-danger:hover {
+    filter: brightness(1.1);
+}
+
+/* =================================
+   Estilos para Painéis Expansíveis (details/summary)
+   ================================= */
+
+.setting-group {
+    padding: 10px 0;
+}
+
+details.setting-group {
+    border-bottom: 1px solid var(--cor-borda-sutil);
+    padding: 0;
+}
+
+details.setting-group:last-of-type {
+    border-bottom: none;
+}
+
+summary {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    list-style: none; /* Remove a seta padrão do navegador */
+    padding: 15px 0;
+}
+
+summary::-webkit-details-marker {
+    display: none; /* Remove a seta padrão no Chrome/Safari */
+}
+
+summary h3 {
+    margin: 0;
+    font-size: 16px;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+/* Cria uma seta customizada usando CSS */
+summary::before {
+    content: '▶';
+    font-size: 12px;
+    margin-right: 15px;
+    color: var(--cor-destaque);
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Gira a seta quando o painel está aberto */
+details[open] > summary::before {
+    transform: rotate(90deg);
+}
+
+details .color-pickers, details .import-export-actions {
+    padding: 0 10px 20px 10px; /* Adiciona espaçamento interno ao conteúdo expandido */
+}
+
+/* Pequeno ajuste no espaçamento dos itens */
+.setting-item {
+    margin-bottom: 10px;
+}
+
+/* Estilos para o cabeçalho da página com botão */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--cor-borda-sutil);
+    padding-bottom: 10px;
+    margin-bottom: 40px;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
+}
+.page-header h1 {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin: 0;
+}
+
+/* Estilos para os botões de ação nos cartões de ferramentas */
+.tool-card {
+    position: relative; /* Necessário para posicionar os botões */
+}
+
+.tool-card-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 5px;
+}
+
+.tool-card-actions button {
+    background-color: rgba(0,0,0,0.1);
+    border: none;
+    color: var(--cor-primaria-texto);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none; /* Escondido por padrão */
+    place-items: center;
+    transition: background-color 0.2s;
+}
+
+.tool-card:hover .tool-card-actions button {
+    display: grid; /* Mostra no hover do cartão */
+}
+
+.tool-card-actions button:hover {
+    background-color: rgba(0,0,0,0.3);
+}
+
+/* =================================
+   Design Responsivo (Telas Pequenas)
+   ================================= */
+
+/* NOVO ESTILO ADICIONADO AQUI */
+/* Esconde o botão hamburger em telas grandes (desktop) por padrão */
+.hamburger-btn {
+    display: none;
+}
+
+
+/* =================================
+   Design Responsivo (VERSÃO CORRIGIDA)
+   ================================= */
+
+/* Esconde o botão hamburger em telas grandes por padrão */
+.hamburger-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--cor-primaria-texto);
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Aplica os estilos abaixo apenas em telas pequenas */
+@media (max-width: 800px) {
+    /* Mostra o botão hamburger */
+    .hamburger-btn {
+        display: block;
+    }
+
+    /* =================================
+       Ajustes de Conteúdo para Telas Pequenas
+       ================================= */
+    
+    /* Garante que os itens do menu fiquem visíveis no menu hamburger */
+    #li-nav-scripts,
+    #li-nav-analise,
+    #li-nav-ferramentas,
+    #li-settings-btn,
+    #li-add-script {
+        display: block;
+    }
+    
+    /* Remove a altura fixa das seções para permitir rolagem da página */
+    .scripts-section,
+    .analise-layout {
+        height: auto;
+    }
+
+    /* Transforma os layouts de duas colunas em uma única coluna vertical */
+    .scripts-section,
+    .analise-layout {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    /* Ajustes na Biblioteca de Scripts */
+    .scripts-list {
+        max-height: none; /* Remove a altura máxima */
+        overflow-y: visible; /* Remove a rolagem interna do painel */
+    }
+
+    /* Faz com que o cabeçalho do painel de scripts não seja mais fixo */
+    .scripts-list-header {
+        position: static;
+        margin: 0;
+        padding: 0;
+        padding-bottom: 15px;
+    }
+
+    .script-content {
+        overflow-y: visible; /* Remove a rolagem interna */
+        padding-right: 0;
+    }
+    
+    /* Ajustes no Painel de Ferramentas */
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    /* A lista de links vira o painel lateral */
+    header nav ul#nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%; /* Começa fora da tela */
+        width: 70%;
+        max-width: 280px;
+        height: 100vh;
+        background-color: var(--cor-primaria-fundo);
+        box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+        
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 80px 30px 30px 30px;
+        gap: 0;
+        
+        transition: right 0.4s ease-in-out;
+        z-index: 1000;
+    }
+
+    /* Classe que o JS vai adicionar para mostrar o menu */
+    header nav ul#nav-links.nav-open {
+        right: 0;
+    }
+
+    header ul#nav-links li {
+        width: 100%;
+    }
+
+    header ul#nav-links a {
+        display: block;
+        padding: 15px 0;
+        width: 100%;
+        font-size: 18px;
+        border-bottom: 1px solid var(--cor-borda-sutil);
+    }
+    
+    header ul#nav-links a.btn {
+        background: none;
+        padding: 15px 0;
+        text-align: left;
+        font-weight: bold;
+    }
+}
+
+/* =================================
+   Estilização da Barra de Rolagem Global e Minimalista
+   ================================= */
+
+/* Para Firefox - define a barra como fina */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--cor-secundaria) transparent;
+}
+
+/* Para Chrome, Edge, Safari etc. - controle total */
+*::-webkit-scrollbar {
+    width: 6px;  /* Deixa a barra de rolagem bem fina */
+    height: 6px; /* Para rolagem horizontal, se houver */
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent; /* O fundo/pista da barra fica invisível */
+}
+
+*::-webkit-scrollbar-thumb {
+    /* Cor da alça com 50% de transparência para ser sutil */
+    background-color: color-mix(in srgb, var(--cor-secundaria) 50%, transparent); 
+    border-radius: 20px; /* Cantos totalmente arredondados */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    /* A cor fica 100% sólida ao passar o mouse */
+    background-color: var(--cor-secundaria);
+}
+
+/* Novos estilos para o upload de ícone no formulário (VERSÃO CORRIGIDA) */
+/* Estilos para o upload de ícone (Opção 1: Lado a Lado) */
+.icon-upload-group {
+    display: flex;
+    align-items: flex-end; /* Alinha a base do botão e da preview */
+    gap: 20px;           /* Espaçamento entre o input e a preview */
+}
+
+.icon-upload-label-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex-grow: 1; /* Faz a parte da esquerda ocupar o espaço disponível */
+}
+
+.file-upload-btn {
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block; /* Ajusta o botão para o tamanho do texto */
+}
+
+.tool-icon-preview {
+    width: 60px;         /* Tamanho maior */
+    height: 60px;        /* Tamanho maior */
+    border: 1px dashed var(--cor-borda-sutil);
+    border-radius: 5px;
+    object-fit: contain;
+    background-color: var(--cor-fundo-geral);
+    flex-shrink: 0;      /* Impede que a imagem encolha se o espaço for pouco */
+}
+
+/* Classe utilitária para esconder elementos */
+.hidden {
+    display: none !important;
+}
